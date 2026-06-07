@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio Admin</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-mark">BD</span>
+          <div>
+            <strong>Portfolio Admin</strong>
+            <small>CRUD dashboard</small>
+          </div>
+        </div>
+
+        <nav class="nav" aria-label="Admin sections">
+          <button class="nav-item active" data-section="overview">Overview</button>
+          <button class="nav-item" data-section="about">About</button>
+          <button class="nav-item" data-section="skills">Skills</button>
+          <button class="nav-item" data-section="projects">Projects</button>
+          <button class="nav-item" data-section="experience">Experience</button>
+          <button class="nav-item" data-section="contact">Contact</button>
+          <button class="nav-item" data-section="messages">Messages</button>
+        </nav>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <h1 id="pageTitle">Overview</h1>
+            <p id="pageHint">Manage all portfolio content from one place.</p>
+          </div>
+          <div class="key-box">
+            <input id="adminKey" type="password" placeholder="Admin API key" autocomplete="off" />
+            <button id="saveKey" class="btn primary" type="button">Save Key</button>
+          </div>
+        </header>
+
+        <div id="notice" class="notice" hidden></div>
+
+        <section id="overview" class="panel active-panel">
+          <div class="stats-grid">
+            <div class="stat"><span>Projects</span><strong id="statProjects">0</strong></div>
+            <div class="stat"><span>Skill Tabs</span><strong id="statSkills">0</strong></div>
+            <div class="stat"><span>Experience</span><strong id="statExperience">0</strong></div>
+            <div class="stat"><span>Messages</span><strong id="statMessages">0</strong></div>
+          </div>
+          <div class="content-grid">
+            <div class="section-block">
+              <h2>API Links</h2>
+              <div id="adminMenu" class="link-list"></div>
+            </div>
+            <div class="section-block">
+              <h2>Quick Preview</h2>
+              <pre id="portfolioPreview" class="preview"></pre>
+            </div>
+          </div>
+        </section>
+
+        <section id="about" class="panel">
+          <form id="aboutForm" class="form-grid">
+            <label>Experience Years<input name="experienceYears" type="number" min="0" required /></label>
+            <label>Projects Built<input name="projectsBuilt" type="number" min="0" required /></label>
+            <label>Happy Clients<input name="happyClients" type="number" min="0" required /></label>
+            <label class="wide">Core Stack<input name="coreStack" type="number" min="0" required /></label>
+            <label class="wide">About Description<textarea name="description" rows="8" required></textarea></label>
+            <div class="wide actions">
+              <button class="btn primary" type="submit">Save About</button>
+            </div>
+          </form>
+
+          <form id="profileForm" class="upload-row">
+            <label>Profile Picture<input name="profile_pic" type="file" accept="image/png,image/jpeg,image/webp" /></label>
+            <button class="btn" type="submit">Upload Image</button>
+            <img id="profilePreview" alt="Profile preview" />
+          </form>
+        </section>
+
+        <section id="skills" class="panel">
+          <div class="split">
+            <div class="section-block">
+              <div class="block-head">
+                <h2>Skill Categories</h2>
+                <button id="newSkillCategory" class="btn" type="button">New</button>
+              </div>
+              <div id="skillList" class="item-list"></div>
+            </div>
+            <form id="skillForm" class="section-block form-stack">
+              <input name="id" type="hidden" />
+              <label>Tab ID<input name="tabId" placeholder="frontend" required /></label>
+              <label>Tab Name<input name="name" placeholder="Frontend" required /></label>
+              <label>Sort Order<input name="sortOrder" type="number" min="0" value="0" /></label>
+              <div class="array-head">
+                <h3>Skills</h3>
+                <button id="addSkillRow" class="btn small" type="button">Add Skill</button>
+              </div>
+              <div id="skillRows" class="rows"></div>
+              <div class="actions">
+                <button class="btn primary" type="submit">Save Category</button>
+                <button id="deleteSkillCategory" class="btn danger" type="button">Delete</button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <section id="projects" class="panel">
+          <div class="split">
+            <div class="section-block">
+              <div class="block-head">
+                <h2>Projects</h2>
+                <button id="newProject" class="btn" type="button">New</button>
+              </div>
+              <div id="projectList" class="item-list"></div>
+            </div>
+            <form id="projectForm" class="section-block form-stack">
+              <input name="id" type="hidden" />
+              <label>Title<input name="title" required /></label>
+              <label>Category<input name="category" required /></label>
+              <label>Description<textarea name="description" rows="5" required></textarea></label>
+              <label>Tech<textarea name="tech" rows="3" placeholder="React.js, Node.js"></textarea></label>
+              <label>GitHub<input name="github" type="url" /></label>
+              <label>Demo<input name="demo" type="url" /></label>
+              <label>Challenge<textarea name="challenge" rows="4" required></textarea></label>
+              <label>Solution<textarea name="solution" rows="4" required></textarea></label>
+              <label>Metrics<textarea name="metrics" rows="3" required></textarea></label>
+              <div class="inline-fields">
+                <label>Sort<input name="sortOrder" type="number" min="0" value="0" /></label>
+                <label class="check"><input name="isFeatured" type="checkbox" checked /> Featured</label>
+              </div>
+              <div class="actions">
+                <button class="btn primary" type="submit">Save Project</button>
+                <button id="deleteProject" class="btn danger" type="button">Delete</button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <section id="experience" class="panel">
+          <div class="split">
+            <div class="section-block">
+              <div class="block-head">
+                <h2>Experience</h2>
+                <button id="newExperience" class="btn" type="button">New</button>
+              </div>
+              <div id="experienceList" class="item-list"></div>
+            </div>
+            <form id="experienceForm" class="section-block form-stack">
+              <input name="id" type="hidden" />
+              <label>Role<input name="role" required /></label>
+              <label>Company<input name="company" required /></label>
+              <label>Location<input name="location" required /></label>
+              <label>Period<input name="period" required /></label>
+              <label>Bullets<textarea name="bullets" rows="5" placeholder="One bullet per line"></textarea></label>
+              <label>Tech<textarea name="tech" rows="3" placeholder="React.js, Laravel"></textarea></label>
+              <label>Sort Order<input name="sortOrder" type="number" min="0" value="0" /></label>
+              <div class="actions">
+                <button class="btn primary" type="submit">Save Experience</button>
+                <button id="deleteExperience" class="btn danger" type="button">Delete</button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <section id="contact" class="panel">
+          <form id="contactForm" class="form-grid">
+            <label>Email<input name="email" type="email" required /></label>
+            <label>Location<input name="location" required /></label>
+            <label>GitHub<input name="github" type="url" required /></label>
+            <label>LinkedIn<input name="linkedin" type="url" required /></label>
+            <div class="wide actions"><button class="btn primary" type="submit">Save Contact</button></div>
+          </form>
+        </section>
+
+        <section id="messages" class="panel">
+          <div class="block-head">
+            <h2>Contact Messages</h2>
+            <button id="refreshMessages" class="btn" type="button">Refresh</button>
+          </div>
+          <div id="messageList" class="message-list"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
