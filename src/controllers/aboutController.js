@@ -9,10 +9,12 @@ export const getAbout = asyncHandler(async (_req, res) => {
 });
 
 export const upsertAbout = asyncHandler(async (req, res) => {
-  // Delete existing document to handle schema migration from array to number
-  await About.findOneAndDelete({});
-  
-  const about = await About.create(req.body);
+  // Use findOneAndUpdate with upsert instead of delete-then-create
+  const about = await About.findOneAndUpdate(
+    {},
+    req.body,
+    { new: true, runValidators: true, upsert: true }
+  );
   sendResponse(res, 200, 'About section saved', about);
 });
 
