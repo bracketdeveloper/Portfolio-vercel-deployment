@@ -4,14 +4,26 @@ import { ApiError } from '../utils/apiError.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 import { sendResponse } from '../utils/sendResponse.js';
 
-// Helper function to convert newline-separated text into an array of strings
+// Helper function to normalize description input into a single trimmed string
 const formatDescription = (description) => {
-  if (typeof description === 'string') {
+  const normalizeLines = (text) => text
+    .split('\n')
+    .map(line => line.trim())
+    .filter(Boolean)
+    .join('\n');
+
+  if (Array.isArray(description)) {
     return description
-      .split('\n')
-      .map(line => line.trim())
-      .filter(line => line.length > 0);
+      .filter(item => typeof item === 'string')
+      .map(normalizeLines)
+      .filter(Boolean)
+      .join('\n');
   }
+
+  if (typeof description === 'string') {
+    return normalizeLines(description);
+  }
+
   return description;
 };
 
